@@ -1,5 +1,6 @@
 from flask import Flask, request, render_template
 from email.message import EmailMessage
+from datetime import datetime
 import os
 import smtplib
 
@@ -22,11 +23,13 @@ def enviar_email_com_anexo(caminho_arquivo):
     senha = os.environ.get("EMAIL_SENHA")
     destinatario = os.environ.get("EMAIL_DESTINO")
 
+    data_hoje = datetime.now().strftime("%B").strip() + f" {datetime.now().day}"  # Ex: March 26
+
     msg = EmailMessage()
-    msg['Subject'] = 'Imagem enviada automaticamente'
+    msg['Subject'] = f"Timesheet Gabriel {data_hoje}"
     msg['From'] = remetente
     msg['To'] = destinatario
-    msg.set_content('Segue imagem em anexo.')
+    msg.set_content(f"In attachment, you will find the timesheet for {data_hoje}. Let me know if you have any questions.")
 
     with open(caminho_arquivo, 'rb') as f:
         msg.add_attachment(f.read(), maintype='image', subtype='jpeg', filename=os.path.basename(caminho_arquivo))
@@ -34,6 +37,7 @@ def enviar_email_com_anexo(caminho_arquivo):
     with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
         smtp.login(remetente, senha)
         smtp.send_message(msg)
+
 
 # Exporte o app como "app" (Vercel usa isso internamente)
 app = app

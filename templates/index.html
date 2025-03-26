@@ -1,31 +1,45 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Envio de Imagem</title>
+    <title>Enviar Timesheet</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- PWA -->
-    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
-    <meta name="theme-color" content="#4caf50">
-    <link rel="apple-touch-icon" href="{{ url_for('static', filename='icon-192.png') }}">
-
-    <script>
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/static/service-worker.js')
-                .then(function(reg) {
-                    console.log('Service Worker registrado', reg);
-                }).catch(function(err) {
-                    console.log('Erro ao registrar SW', err);
-                });
+    <style>
+        body {
+            font-family: sans-serif;
+            padding: 20px;
+            max-width: 500px;
+            margin: auto;
         }
-    </script>
+        input[type="file"] {
+            display: block;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-    <h2>Tirar foto e enviar por e-mail</h2>
+    <h2>Enviar Timesheet</h2>
+
     <form method="POST" enctype="multipart/form-data">
-        <input type="file" name="imagem" accept="image/*" capture="environment" required>
-        <br><br>
-        <button type="submit">Tirar foto / Enviar</button>
+        <!-- Botão de tirar foto -->
+        <label for="imagem">Tirar Foto da Timesheet:</label>
+        <input 
+            type="file" 
+            id="imagem" 
+            name="imagem" 
+            accept="image/*" 
+            capture="environment" 
+            required>
+
+        <!-- Botão de envio -->
+        <button type="submit">Enviar Timesheet</button>
     </form>
 </body>
 </html>
