@@ -3,9 +3,8 @@ from email.message import EmailMessage
 import os
 import smtplib
 
-app = Flask(__name__, static_folder="../static", template_folder="../templates")
-UPLOAD_FOLDER = '/tmp'
-EMAIL_DESTINO = 'destinatario@email.com'
+app = Flask(__name__, template_folder="../templates", static_folder="../static")
+UPLOAD_FOLDER = "/tmp"
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -14,18 +13,19 @@ def index():
         if imagem:
             caminho = os.path.join(UPLOAD_FOLDER, imagem.filename)
             imagem.save(caminho)
-            enviar_email_com_anexo(EMAIL_DESTINO, caminho)
+            enviar_email_com_anexo(caminho)
             return "Imagem enviada com sucesso!"
     return render_template("index.html")
 
-def enviar_email_com_anexo(para, caminho_arquivo):
+def enviar_email_com_anexo(caminho_arquivo):
     remetente = os.environ.get("EMAIL_REMETENTE")
     senha = os.environ.get("EMAIL_SENHA")
+    destinatario = os.environ.get("EMAIL_DESTINO")
 
     msg = EmailMessage()
     msg['Subject'] = 'Imagem enviada automaticamente'
     msg['From'] = remetente
-    msg['To'] = para
+    msg['To'] = destinatario
     msg.set_content('Segue imagem em anexo.')
 
     with open(caminho_arquivo, 'rb') as f:
@@ -35,8 +35,5 @@ def enviar_email_com_anexo(para, caminho_arquivo):
         smtp.login(remetente, senha)
         smtp.send_message(msg)
 
-# Exporta o app para o Vercel
-def handler(event, context):
-    from mangum import Mangum
-    asgi_app = Mangum(app)
-    return asgi_app(event, context)
+# Exporte o app como "app" (Vercel usa isso internamente)
+app = app
