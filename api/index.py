@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template
 from email.message import EmailMessage
 from datetime import datetime
+import pytz
 import os
 import smtplib
 
@@ -23,7 +24,10 @@ def enviar_email_com_anexo(caminho_arquivo):
     senha = os.environ.get("EMAIL_SENHA")
     destinatario = os.environ.get("EMAIL_DESTINO")
 
-    data_hoje = datetime.now().strftime("%B").strip() + f" {datetime.now().day}"  # Ex: March 26
+    # 🇦🇺 Fuso horário de Sydney
+    fuso_aus = pytz.timezone("Australia/Sydney")
+    agora_aus = datetime.now(fuso_aus)
+    data_hoje = agora_aus.strftime("%B").strip() + f" {agora_aus.day}"  # Ex: March 27
 
     msg = EmailMessage()
     msg['Subject'] = f"Timesheet Gabriel {data_hoje}"
@@ -37,7 +41,6 @@ def enviar_email_com_anexo(caminho_arquivo):
     with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
         smtp.login(remetente, senha)
         smtp.send_message(msg)
-
 
 # Exporte o app como "app" (Vercel usa isso internamente)
 app = app

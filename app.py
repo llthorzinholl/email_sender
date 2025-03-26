@@ -1,6 +1,6 @@
 import os
 import smtplib
-from flask import Flask, request, render_template, send_from_directory
+from flask import Flask, request, render_template, send_from_directory, redirect, url_for
 from email.message import EmailMessage
 
 app = Flask(__name__)
@@ -27,7 +27,7 @@ def index():
             caminho = os.path.join(app.config['UPLOAD_FOLDER'], imagem.filename)
             imagem.save(caminho)
             enviar_email_com_anexo(EMAIL_DESTINO, caminho)
-            return "Imagem enviada com sucesso!"
+            return redirect(url_for("index"))
     return render_template("index.html")
 
 def enviar_email_com_anexo(para, caminho_arquivo):

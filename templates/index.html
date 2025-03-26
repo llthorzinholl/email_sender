@@ -1,45 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Enviar Timesheet</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <style>
-        body {
-            font-family: sans-serif;
-            padding: 20px;
-            max-width: 500px;
-            margin: auto;
-        }
-        input[type="file"] {
-            display: block;
-            margin-bottom: 20px;
-            font-size: 16px;
-        }
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enviar Timesheet</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+      max-width: 500px;
+      margin: auto;
+    }
+    input[type="file"] {
+      display: block;
+      margin-bottom: 20px;
+      font-size: 16px;
+      width: 100%;
+    }
+    button {
+      padding: 12px 20px;
+      font-size: 16px;
+      width: 100%;
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 6px;
+    }
+  </style>
 </head>
 <body>
-    <h2>Enviar Timesheet</h2>
-
-    <form method="POST" enctype="multipart/form-data">
-        <!-- Botão de tirar foto -->
-        <label for="imagem">Tirar Foto da Timesheet:</label>
-        <input 
-            type="file" 
-            id="imagem" 
-            name="imagem" 
-            accept="image/*" 
-            capture="environment" 
-            required>
-
-        <!-- Botão de envio -->
-        <button type="submit">Enviar Timesheet</button>
-    </form>
+  <h2>Enviar Timesheet</h2>
+  <form method="POST" enctype="multipart/form-data">
+    <label for="imagem">Tirar foto ou escolher imagem:</label>
+    <input 
+      type="file" 
+      name="imagem" 
+      id="imagem" 
+      accept="image/*" 
+      capture="environment"
+      required>
+      
+    <button type="submit">Enviar Timesheet</button>
+  </form>
 </body>
 </html>
