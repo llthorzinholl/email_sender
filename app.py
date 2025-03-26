@@ -19,15 +19,17 @@ HTML_FORM = '''
 </form>
 '''
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route("/", methods=["GET", "POST"])
 def index():
-    if request.method == 'POST':
-        imagem = request.files['imagem']
+    if request.method == "POST":
+        imagem = request.files["imagem"]
         if imagem:
-            caminho = os.path.join(app.config['UPLOAD_FOLDER'], imagem.filename)
+            caminho = os.path.join(UPLOAD_FOLDER, imagem.filename)
             imagem.save(caminho)
-            enviar_email_com_anexo(EMAIL_DESTINO, caminho)
-            return redirect(url_for("index"))
+            enviar_email_com_anexo(caminho)
+
+        return redirect(url_for("index"))
+
     return render_template("index.html")
 
 def enviar_email_com_anexo(para, caminho_arquivo):
