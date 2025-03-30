@@ -5,7 +5,7 @@ from email.message import EmailMessage
 
 app = Flask(__name__)
 UPLOAD_FOLDER = 'uploads'
-EMAIL_DESTINO = 'twofng@gmail.com'
+EMAIL_DESTINO = 'business.support@aesaus.com.au'
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
