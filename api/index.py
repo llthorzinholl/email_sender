@@ -16,28 +16,27 @@ def index():
         if imagem:
             caminho = os.path.join(UPLOAD_FOLDER, imagem.filename)
             imagem.save(caminho)
-            enviar_email_com_anexo(caminho)
-            return "Imagem enviada com sucesso!"
+            enviar_email_com_anexo(caminho, nome)
+            return redirect(url_for("index"))  # Resetar a página após envio
     return render_template("index.html")
 
-def enviar_email_com_anexo(caminho_arquivo):
+def enviar_email_com_anexo(caminho_arquivo, nome):
     remetente = os.environ.get("EMAIL_REMETENTE")
     senha = os.environ.get("EMAIL_SENHA")
     destinatario = os.environ.get("EMAIL_DESTINO")
 
-    # 🇦🇺 Fuso horário de Sydney
     fuso_aus = pytz.timezone("Australia/Sydney")
     agora_aus = datetime.now(fuso_aus)
-    data_hoje = agora_aus.strftime("%B").strip() + f" {agora_aus.day}"  # Ex: March 27
+    data_hoje = agora_aus.strftime("%B").strip() + f" {agora_aus.day}"
 
     msg = EmailMessage()
     msg['Subject'] = f"Timesheet {nome} - {data_hoje}"
     msg['From'] = remetente
     msg['To'] = destinatario
     msg.set_content(
-    f"In attachment, you will find the timesheet for {data_hoje} sent by {nome}. "
-    "Let me know if you have any questions."
-)
+        f"In attachment, you will find the timesheet for {data_hoje} sent by {nome}. "
+        "Let me know if you have any questions."
+    )
 
     with open(caminho_arquivo, 'rb') as f:
         msg.add_attachment(f.read(), maintype='image', subtype='jpeg', filename=os.path.basename(caminho_arquivo))
@@ -46,5 +45,5 @@ def enviar_email_com_anexo(caminho_arquivo):
         smtp.login(remetente, senha)
         smtp.send_message(msg)
 
-# Exporte o app como "app" (Vercel usa isso internamente)
+# Vercel precisa disso
 app = app
