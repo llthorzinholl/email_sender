@@ -11,6 +11,7 @@ UPLOAD_FOLDER = "/tmp"
 @app.route("/", methods=["GET", "POST"])
 def index():
     if request.method == "POST":
+        nome = request.form.get("nome")
         imagem = request.files["imagem"]
         if imagem:
             caminho = os.path.join(UPLOAD_FOLDER, imagem.filename)
@@ -30,10 +31,13 @@ def enviar_email_com_anexo(caminho_arquivo):
     data_hoje = agora_aus.strftime("%B").strip() + f" {agora_aus.day}"  # Ex: March 27
 
     msg = EmailMessage()
-    msg['Subject'] = f"Timesheet Gabriel {data_hoje}"
+    msg['Subject'] = f"Timesheet {nome} – {data_hoje}"
     msg['From'] = remetente
     msg['To'] = destinatario
-    msg.set_content(f"In attachment, you will find the timesheet for {data_hoje}. Let me know if you have any questions.")
+    msg.set_content(
+    f"In attachment, you will find the timesheet for {data_hoje} sent by {nome}. "
+    "Let me know if you have any questions."
+)
 
     with open(caminho_arquivo, 'rb') as f:
         msg.add_attachment(f.read(), maintype='image', subtype='jpeg', filename=os.path.basename(caminho_arquivo))
