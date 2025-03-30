@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, redirect, url_for
 from email.message import EmailMessage
 from datetime import datetime
 import pytz
@@ -31,7 +31,7 @@ def enviar_email_com_anexo(caminho_arquivo):
     data_hoje = agora_aus.strftime("%B").strip() + f" {agora_aus.day}"  # Ex: March 27
 
     msg = EmailMessage()
-    msg['Subject'] = f"Timesheet {nome} – {data_hoje}"
+    msg['Subject'] = f"Timesheet {nome} - {data_hoje}"
     msg['From'] = remetente
     msg['To'] = destinatario
     msg.set_content(
