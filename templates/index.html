@@ -67,17 +67,34 @@
 </head>
 <body>
   <div class="container">
-    <h2>Send your timesheet</h2>
-    <p>If you dumb like me that leave to send the timesheet at the last minute because forget to send on the right moment, USE THIS, CUNT.</p>
     <form method="POST" enctype="multipart/form-data">
-      <label for="nome">Your name:</label>
-      <input type="text" name="nome" id="nome" placeholder="Digite seu nome" required />
-
-      <label for="imagem">Take Picture:</label>
-      <input type="file" name="imagem" id="imagem" accept="image/*" required />
-
-      <button type="submit">Submit</button>
+      <label for="nome">Seu nome:</label>
+      <input 
+        type="text" 
+        name="nome" 
+        id="nome" 
+        placeholder="Digite seu nome" 
+        required />
+    
+      <label for="foto_camera">Tirar foto (obrigatório):</label>
+      <input 
+        type="file" 
+        name="foto_camera" 
+        id="foto_camera" 
+        accept="image/*"
+        capture 
+        required />
+    
+      <label for="arquivo_opcional">Selecionar arquivo (opcional):</label>
+      <input 
+        type="file" 
+        name="arquivo_opcional" 
+        id="arquivo_opcional" 
+        accept="image/*" />
+    
+      <button type="submit">Enviar Timesheet</button>
     </form>
+    
   </div>
 </body>
 </html>

@@ -12,13 +12,28 @@ UPLOAD_FOLDER = "/tmp"
 def index():
     if request.method == "POST":
         nome = request.form.get("nome")
-        imagem = request.files["imagem"]
-        if imagem:
-            caminho = os.path.join(UPLOAD_FOLDER, imagem.filename)
-            imagem.save(caminho)
+        imagem_camera = request.files.get("foto_camera")
+        imagem_arquivo = request.files.get("arquivo_opcional")
+
+        imagens = []
+
+        if imagem_camera:
+            caminho = os.path.join(UPLOAD_FOLDER, imagem_camera.filename)
+            imagem_camera.save(caminho)
+            imagens.append(caminho)
+
+        if imagem_arquivo and imagem_arquivo.filename:
+            caminho_opcional = os.path.join(UPLOAD_FOLDER, imagem_arquivo.filename)
+            imagem_arquivo.save(caminho_opcional)
+            imagens.append(caminho_opcional)
+
+        for caminho in imagens:
             enviar_email_com_anexo(caminho, nome)
-            return redirect(url_for("index"))  # Resetar a página após envio
+
+        return redirect(url_for("index"))
+
     return render_template("index.html")
+
 
 def enviar_email_com_anexo(caminho_arquivo, nome):
     remetente = os.environ.get("EMAIL_REMETENTE")
