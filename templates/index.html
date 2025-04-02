@@ -79,21 +79,24 @@
       <label for="foto_camera">Tirar foto (obrigatório):</label>
       <input 
         type="file" 
-        name="foto_camera" 
+        name="fotos_camera" 
         id="foto_camera" 
         accept="image/*"
         capture 
+        multiple
         required />
     
-      <label for="arquivo_opcional">Selecionar arquivo (opcional):</label>
+      <label for="arquivo_opcional">Selecionar arquivos da galeria (opcional):</label>
       <input 
         type="file" 
-        name="arquivo_opcional" 
+        name="fotos_opcionais" 
         id="arquivo_opcional" 
-        accept="image/*" />
+        accept="image/*"
+        multiple />
     
       <button type="submit">Enviar Timesheet</button>
     </form>
+    
     
   </div>
 </body>
